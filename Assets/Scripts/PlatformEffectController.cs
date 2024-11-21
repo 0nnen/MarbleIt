@@ -7,27 +7,25 @@ public class PlatformEffectController : MonoBehaviour
     {
         SpeedUp,
         SlowDown,
-        ReverseGravity
+        ReverseGravity,
+        ToggleGravity
     }
 
     [Header("Platform Effect Settings")]
-    [Tooltip("Choose the effect type: SpeedUp, SlowDown, or ReverseGravity.")]
     public PlatformEffectType effectType;
 
-    [Tooltip("Multiplier for speed change. Not used for ReverseGravity.")]
-    [Range(0.1f, 3.0f)]
+    [Tooltip("Multiplier for speed change. Not used for gravity effects.")]
+    [Range(0.1f, 15.0f)]
     public float speedMultiplier = 1.0f;
 
-    [Tooltip("Duration in seconds for how long the effect lasts.")]
+    [Tooltip("Duration in seconds for how long the effect lasts. Ignored for ToggleGravity.")]
     public float effectDuration = 2.0f;
 
     private void Start()
     {
-        // Ensure the collider is set to trigger
         Collider collider = GetComponent<Collider>();
         if (!collider.isTrigger)
         {
-            Debug.LogWarning($"The collider on {gameObject.name} is not set to 'Is Trigger'. Automatically fixing this.");
             collider.isTrigger = true;
         }
     }
@@ -50,7 +48,11 @@ public class PlatformEffectController : MonoBehaviour
                         break;
 
                     case PlatformEffectType.ReverseGravity:
-                        ballController.ApplyGravityChange(effectDuration);
+                        ballController.ApplyGravityChange(effectDuration, true);
+                        break;
+
+                    case PlatformEffectType.ToggleGravity:
+                        ballController.ToggleGravity();
                         break;
 
                     default:

@@ -6,8 +6,9 @@ public class BallController : MonoBehaviour
 {
     private Rigidbody rb;
     private float originalSpeed;
-    private bool isSpeedModified = false;
+    private Coroutine speedChangeCoroutine;
     private bool isGravityReversed = false;
+    private bool isGravityToggled = false;
 
     private void Awake()
     {
@@ -25,32 +26,44 @@ public class BallController : MonoBehaviour
 
     public void ApplySpeedChange(float multiplier, float duration)
     {
-        if (isSpeedModified)
+        if (speedChangeCoroutine != null)
         {
-            Debug.LogWarning("Speed modification is already active. Ignoring this new effect.");
-            return;
+            StopCoroutine(speedChangeCoroutine);
         }
 
-        StartCoroutine(SpeedChangeRoutine(multiplier, duration));
+        speedChangeCoroutine = StartCoroutine(SpeedChangeRoutine(multiplier, duration));
     }
 
     private IEnumerator SpeedChangeRoutine(float multiplier, float duration)
     {
-        isSpeedModified = true;
+        float elapsedTime = 0f;
 
-        // Adjust speed
-        Vector3 velocity = rb.velocity;
-        rb.velocity = velocity * multiplier;
+        while (elapsedTime < duration)
+        {
+            // Modifie la vitesse actuelle
+            Vector3 currentVelocity = rb.velocity;
+            rb.velocity = currentVelocity.normalized * originalSpeed * multiplier;
 
-        // Wait for the effect to expire
-        yield return new WaitForSeconds(duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
 
-        // Revert to the original speed
+        // Transition fluide pour revenir à la vitesse normale
+        float transitionTime = 1f; // Durée de la transition
+        float transitionElapsed = 0f;
+
+        while (transitionElapsed < transitionTime)
+        {
+            rb.velocity = Vector3.Lerp(rb.velocity, rb.velocity.normalized * originalSpeed, transitionElapsed / transitionTime);
+            transitionElapsed += Time.deltaTime;
+            yield return null;
+        }
+
         rb.velocity = rb.velocity.normalized * originalSpeed;
-        isSpeedModified = false;
+        speedChangeCoroutine = null;
     }
 
-    public void ApplyGravityChange(float duration)
+    public void ApplyGravityChange(float duration, bool isTemporary)
     {
         if (isGravityReversed)
         {
@@ -58,22 +71,49 @@ public class BallController : MonoBehaviour
             return;
         }
 
-        StartCoroutine(GravityChangeRoutine(duration));
+        StartCoroutine(GravityChangeRoutine(duration, isTemporary));
     }
 
-    private IEnumerator GravityChangeRoutine(float duration)
+    private IEnumerator GravityChangeRoutine(float duration, bool isTemporary)
     {
         isGravityReversed = true;
 
-        // Reverse gravity
+        // Inverse la gravité
         rb.useGravity = false;
-        rb.AddForce(Physics.gravity * -100, ForceMode.Acceleration);
+        rb.AddForce(Physics.gravity * -2, ForceMode.Acceleration);
 
-        // Wait for the effect to expire
-        yield return new WaitForSeconds(duration);
+        if (isTemporary)
+        {
+            yield return new WaitForSeconds(duration);
 
-        // Restore original gravity
-        rb.useGravity = true;
-        isGravityReversed = false;
+            // Transition fluide vers la gravité normale
+            float elapsedTime = 0f;
+            Vector3 targetGravity = Physics.gravity;
+
+            while (elapsedTime < 1f)
+            {
+                rb.AddForce(Vector3.Lerp(rb.velocity, targetGravity, elapsedTime / 1f), ForceMode.Acceleration);
+                elapsedTime += Time.deltaTime;
+                yield return null;
+            }
+
+            rb.useGravity = true;
+            isGravityReversed = false;
+        }
+    }
+
+    public void ToggleGravity()
+    {
+        if (!isGravityToggled)
+        {
+            rb.useGravity = false;
+            rb.AddForce(Physics.gravity * -2, ForceMode.Acceleration);
+            isGravityToggled = true;
+        }
+        else
+        {
+            rb.useGravity = true;
+            isGravityToggled = false;
+        }
     }
 }
