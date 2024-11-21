@@ -29,10 +29,9 @@ public class MarbleMovementController : MonoBehaviour
         Vector3 direction = (targetPosition - transform.position).normalized;
         if(Mathf.Abs(transform.position.x - targetPosition.x) > 0.1f && targetPosition != Vector3.zero){
             rb.velocity = new Vector3(direction.x * moveSpeed, rb.velocity.y, rb.velocity.z);
-        }else{
+        }else if(Mathf.Abs(transform.position.x - targetPosition.x) <= 0.1f && targetPosition != Vector3.zero){
             rb.velocity = new Vector3(0f, rb.velocity.y, rb.velocity.z);
             targetPosition = Vector3.zero;
-            Debug.Log("Ici");
         }
     }
 }
