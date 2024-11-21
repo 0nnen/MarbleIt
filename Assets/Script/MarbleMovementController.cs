@@ -6,10 +6,10 @@ using UnityEngine.InputSystem;
 
 public class MarbleMovementController : MonoBehaviour
 {   
-        public float moveSpeed = 5f; // Vitesse d'ajustement de la bille
+    public float moveSpeed = 5f; // Vitesse d'ajustement de la bille
     private Rigidbody rb;
     private Camera mainCamera;
-    private float targetX; // Position horizontale cible
+    private Vector3 targetPosition;
 
     private void Start()
     {
@@ -21,15 +21,18 @@ public class MarbleMovementController : MonoBehaviour
     {
         if(context.phase != InputActionPhase.Performed){return;}
         Vector2 screenPosition = context.ReadValue<Vector2>();
+        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y,10f));
+        targetPosition = new Vector3(worldPosition.x, transform.position.y, transform.position.z);
+    }
 
-        // Convertir en coordonnées du monde
-        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y, mainCamera.transform.position.y - transform.position.y));
-        Debug.Log(worldPosition);
-        // Mettre à jour la position cible uniquement sur l'axe X
-        targetX = worldPosition.x;
-        // Calculer la position actuelle et la cible
-        Vector3 currentPosition = transform.position;
-        Vector3 targetPosition = new Vector3(targetX, currentPosition.y, currentPosition.z);
-        transform.position = targetPosition;
+    void FixedUpdate(){
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        if(Mathf.Abs(transform.position.x - targetPosition.x) > 0.1f && targetPosition != Vector3.zero){
+            rb.velocity = new Vector3(direction.x * moveSpeed, rb.velocity.y, rb.velocity.z);
+        }else{
+            rb.velocity = new Vector3(0f, rb.velocity.y, rb.velocity.z);
+            targetPosition = Vector3.zero;
+            Debug.Log("Ici");
+        }
     }
 }
