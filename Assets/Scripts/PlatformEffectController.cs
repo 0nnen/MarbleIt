@@ -17,14 +17,4 @@ public class PlatformEffectController : MonoBehaviour
     [Tooltip("Amount of speed/slow to add when in contact with this platform.")]
     [Range(0, 50)]
     public float speedSlowAmount = 10f;
-
-/*    private void Start()
-    {
-        Collider collider = GetComponent<Collider>();
-        if (!collider.isTrigger)
-        {
-            Debug.LogWarning($"The collider on {gameObject.name} is not set to 'Is Trigger'. Automatically fixing this.");
-            collider.isTrigger = true;
-        }
-    }*/
 }
