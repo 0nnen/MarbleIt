@@ -35,7 +35,7 @@ public class StartManager : MonoBehaviour
 
     async void OnTriggerEnter(Collider other){
         if(other.gameObject.tag == "Player"){
-            MarbleMovementController movementController = other.gameObject.GetComponent<MarbleMovementController>();
+            PlayerController movementController = other.gameObject.GetComponent<PlayerController>();
             movementController.SetKinematic(false);
             await Task.Delay(10);
             movementController.ApplyForce(-Vector3.forward * forceMultiplyer );    
