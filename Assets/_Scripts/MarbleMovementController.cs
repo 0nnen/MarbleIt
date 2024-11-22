@@ -42,6 +42,14 @@ public class MarbleMovementController : MonoBehaviour
             }
             
     }
+
+    public void SetKinematic(bool _kinematic){
+        rb.isKinematic = _kinematic;
+    }
+
+    public void ApplyForce(Vector3 _vector){
+        rb.AddForce(_vector);
+    }
 }
 
     // void FixedUpdate(){
