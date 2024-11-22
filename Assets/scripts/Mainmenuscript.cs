@@ -1,44 +1,106 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Mainmenuscript : MonoBehaviour
+public class MainMenuScript : MonoBehaviour
 {
-    [SerializeField] GameObject levelSelector;
-    [SerializeField] GameObject mainMenu;
-    string[] sceneTab = { "Level1", "Level2", "Level3" };
-    [SerializeField] TextMeshProUGUI text;
+    [SerializeField] private GameObject levelSelector;
+    [SerializeField] private GameObject mainMenu;
+    [SerializeField] private GameObject creditsPopup;
+    [SerializeField] private GameObject storePopup;
+    [SerializeField] private GameObject settingsPopup;
+    [SerializeField] private GameObject messagePopup;
+    [SerializeField] private GameObject skinPopup; 
+
+    private string[] sceneTab = { "Level1", "Level2", "Level3" };
     private int currentLevel = 0;
 
-    void Update()
+    public void PlayGame()
     {
-        text.text = sceneTab[currentLevel];
+        string sceneToLoad = sceneTab[currentLevel];
+        SceneManager.LoadScene(sceneToLoad);
     }
-    public void playGame()
+
+    public void ShowCredits()
     {
-        //SceneManager.LoadSceneAsync("LevelSelector");
-        mainMenu.SetActive(false);
-        levelSelector.SetActive(true);
-    }
-    public void next()
-    {
-        if (currentLevel < 2)
+        if (creditsPopup != null && mainMenu != null)
         {
-            currentLevel++;
+            creditsPopup.SetActive(true);
+            mainMenu.SetActive(false);
         }
     }
-    public void previous()
+
+    public void ShowStore()
     {
-        if (currentLevel > 0)
+        if (storePopup != null && mainMenu != null)
         {
-            currentLevel--;
+            storePopup.SetActive(true);
+            mainMenu.SetActive(false);
         }
     }
-    public void load()
+
+    public void ShowSettings()
     {
-        print("load" +  sceneTab[currentLevel]);
+        if (settingsPopup != null && mainMenu != null)
+        {
+            settingsPopup.SetActive(true);
+            mainMenu.SetActive(false);
+        }
+    }
+
+    public void ShowMessage()
+    {
+        if (messagePopup != null && mainMenu != null)
+        {
+            messagePopup.SetActive(true);
+            mainMenu.SetActive(false);
+        }
+    }
+
+    public void ShowLevel()
+    {
+        if (levelSelector != null && mainMenu != null)
+        {
+            levelSelector.SetActive(true);
+            mainMenu.SetActive(false);
+        }
+    }
+
+    public void ShowSkinPopup()
+    {
+        if (skinPopup != null && mainMenu != null)
+        {
+            skinPopup.SetActive(true);
+            mainMenu.SetActive(false);
+        }
+    }
+
+    public void BackToMenu()
+    {
+        if (creditsPopup != null) creditsPopup.SetActive(false);
+        if (storePopup != null) storePopup.SetActive(false);
+        if (settingsPopup != null) settingsPopup.SetActive(false);
+        if (messagePopup != null) messagePopup.SetActive(false);
+        if (levelSelector != null) levelSelector.SetActive(false);
+        if (skinPopup != null) skinPopup.SetActive(false);
+
+        if (mainMenu != null)
+        {
+            mainMenu.SetActive(true);
+        }
+    }
+
+    private void EnsureMainMenuActive()
+    {
+        if (!mainMenu.activeSelf && !creditsPopup.activeSelf && !storePopup.activeSelf &&
+            !settingsPopup.activeSelf && !messagePopup.activeSelf && !levelSelector.activeSelf &&
+            !skinPopup.activeSelf)
+        {
+            mainMenu.SetActive(true);
+        }
+    }
+
+    public void UseSkin(string skinName)
+    {
+        Debug.Log($"Skin activé : {skinName}");
     }
 }
