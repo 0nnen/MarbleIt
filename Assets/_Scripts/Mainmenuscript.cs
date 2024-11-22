@@ -1,8 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class MainMenuScript : MonoBehaviour
 {
+    [Header("UI Panels")]
     [SerializeField] private GameObject levelSelector;
     [SerializeField] private GameObject mainMenu;
     [SerializeField] private GameObject creditsPopup;
@@ -11,11 +13,92 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private GameObject messagePopup;
     [SerializeField] private GameObject skinPopup;
 
-    [SerializeField] private AudioSource buttonClickSound; 
+    [Header("Audio Sources")]
+    [SerializeField] private AudioSource buttonClickSound;
+/*    [SerializeField] private AudioSource backgroundMusic;
+*/
+    [Header("Sliders")]
+    [SerializeField] private Slider musicVolumeSlider;
+    [SerializeField] private Slider soundVolumeSlider;
 
     private string[] sceneTab = { "Level1", "Level2", "Level3" };
     private int currentLevel = 0;
 
+    private void Start()
+    {
+        // Vérification de la musique en arrière-plan
+        if (gameObject.GetComponent<AudioSource>() != null)
+        {
+            gameObject.GetComponent<AudioSource>().gameObject.SetActive(true);  // Ensure the game object is active
+            gameObject.GetComponent<AudioSource>().loop = true;
+
+            // Initialisation du volume de la musique
+            if (gameObject.GetComponent<AudioSource>().volume == 0)
+            {
+                gameObject.GetComponent<AudioSource>().volume = 0.5f; // Valeur par défaut
+            }
+
+            gameObject.GetComponent<AudioSource>().Play();
+
+            // Initialisation du slider de volume avec la valeur actuelle de l'AudioSource
+            if (gameObject.GetComponent<AudioSource>() != null)
+            {
+                musicVolumeSlider.value = gameObject.GetComponent<AudioSource>().volume;
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Aucune AudioSource assignée à backgroundMusic !");
+        }
+
+        // Vérification du son des boutons
+        if (buttonClickSound != null)
+        {
+            if (soundVolumeSlider != null)
+            {
+                soundVolumeSlider.value = buttonClickSound.volume; // Valeur initiale
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Aucune AudioSource assignée pour le son des boutons !");
+        }
+
+        // Initialisation des sliders et des événements de changement de valeur
+        
+    }
+
+    // Méthode de mise à jour du volume de la musique
+    public void SetMusicVolume()
+    {
+        if (gameObject.GetComponent<AudioSource>() != null)
+        {
+            gameObject.GetComponent<AudioSource>().volume = musicVolumeSlider.value;
+            Debug.Log($"Volume de la musique mis à jour : {musicVolumeSlider.value}");
+        }
+        else
+        {
+            Debug.LogWarning("Aucune AudioSource assignée à backgroundMusic !");
+        }
+    }
+
+
+
+    // Méthode de mise à jour du volume du son des boutons
+    private void SetSoundVolume()
+    {
+        if (buttonClickSound != null)
+        {
+            buttonClickSound.volume = soundVolumeSlider.value;
+            Debug.Log($"Volume du son des boutons mis à jour : {soundVolumeSlider.value}");
+        }
+        else
+        {
+            Debug.LogWarning("Aucun AudioSource assigné pour le son des boutons !");
+        }
+    }
+
+    // Méthode pour jouer le son du bouton
     private void PlayButtonClickSound()
     {
         if (buttonClickSound != null)
@@ -38,87 +121,67 @@ public class MainMenuScript : MonoBehaviour
     public void ShowCredits()
     {
         PlayButtonClickSound();
-        if (creditsPopup != null && mainMenu != null)
-        {
-            creditsPopup.SetActive(true);
-            mainMenu.SetActive(false);
-        }
+        ShowPanel(creditsPopup);
     }
 
     public void ShowStore()
     {
         PlayButtonClickSound();
-        if (storePopup != null && mainMenu != null)
-        {
-            storePopup.SetActive(true);
-            mainMenu.SetActive(false);
-        }
+        ShowPanel(storePopup);
     }
 
     public void ShowSettings()
     {
         PlayButtonClickSound();
-        if (settingsPopup != null && mainMenu != null)
-        {
-            settingsPopup.SetActive(true);
-            mainMenu.SetActive(false);
-        }
+        ShowPanel(settingsPopup);
     }
 
     public void ShowMessage()
     {
         PlayButtonClickSound();
-        if (messagePopup != null && mainMenu != null)
-        {
-            messagePopup.SetActive(true);
-            mainMenu.SetActive(false);
-        }
+        ShowPanel(messagePopup);
     }
 
     public void ShowLevel()
     {
         PlayButtonClickSound();
-        if (levelSelector != null && mainMenu != null)
-        {
-            levelSelector.SetActive(true);
-            mainMenu.SetActive(false);
-        }
+        ShowPanel(levelSelector);
     }
 
     public void ShowSkinPopup()
     {
         PlayButtonClickSound();
-        if (skinPopup != null && mainMenu != null)
-        {
-            skinPopup.SetActive(true);
-            mainMenu.SetActive(false);
-        }
+        ShowPanel(skinPopup);
     }
 
     public void BackToMenu()
     {
         PlayButtonClickSound();
-        if (creditsPopup != null) creditsPopup.SetActive(false);
-        if (storePopup != null) storePopup.SetActive(false);
-        if (settingsPopup != null) settingsPopup.SetActive(false);
-        if (messagePopup != null) messagePopup.SetActive(false);
-        if (levelSelector != null) levelSelector.SetActive(false);
-        if (skinPopup != null) skinPopup.SetActive(false);
-
+        HideAllPanels();
         if (mainMenu != null)
         {
             mainMenu.SetActive(true);
         }
     }
 
-    private void EnsureMainMenuActive()
+    private void ShowPanel(GameObject panel)
     {
-        if (!mainMenu.activeSelf && !creditsPopup.activeSelf && !storePopup.activeSelf &&
-            !settingsPopup.activeSelf && !messagePopup.activeSelf && !levelSelector.activeSelf &&
-            !skinPopup.activeSelf)
+        if (panel != null)
         {
-            mainMenu.SetActive(true);
+            HideAllPanels();
+            panel.SetActive(true);
         }
+    }
+
+    private void HideAllPanels()
+    {
+        if (creditsPopup != null) creditsPopup.SetActive(false);
+        if (storePopup != null) storePopup.SetActive(false);
+        if (settingsPopup != null) settingsPopup.SetActive(false);
+        if (messagePopup != null) messagePopup.SetActive(false);
+        if (levelSelector != null) levelSelector.SetActive(false);
+        if (skinPopup != null) skinPopup.SetActive(false);
+        if (mainMenu != null) mainMenu.SetActive(false);
     }
 
     public void UseSkin(string skinName)
