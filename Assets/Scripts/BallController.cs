@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody))]
@@ -6,8 +5,7 @@ public class BallController : MonoBehaviour
 {
     private Rigidbody rb;
     private float originalSpeed;
-    private Coroutine speedChangeCoroutine;
-    private bool isGravityReversed = false;
+    private Vector3 originalGravity;
     private bool isGravityToggled = false;
 
     private void Awake()
@@ -22,98 +20,62 @@ public class BallController : MonoBehaviour
     private void Start()
     {
         originalSpeed = rb.velocity.magnitude;
+        originalGravity = Physics.gravity;
     }
 
-    public void ApplySpeedChange(float multiplier, float duration)
+    private void OnCollisionEnter(Collision collision)
     {
-        if (speedChangeCoroutine != null)
+        PlatformEffectController platformEffect = collision.gameObject.GetComponent<PlatformEffectController>();
+        if (platformEffect != null)
         {
-            StopCoroutine(speedChangeCoroutine);
-        }
-
-        speedChangeCoroutine = StartCoroutine(SpeedChangeRoutine(multiplier, duration));
-    }
-
-    private IEnumerator SpeedChangeRoutine(float multiplier, float duration)
-    {
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
-        {
-            // Modifie la vitesse actuelle
-            Vector3 currentVelocity = rb.velocity;
-            rb.velocity = currentVelocity.normalized * originalSpeed * multiplier;
-
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-
-        // Transition fluide pour revenir à la vitesse normale
-        float transitionTime = 1f; // Durée de la transition
-        float transitionElapsed = 0f;
-
-        while (transitionElapsed < transitionTime)
-        {
-            rb.velocity = Vector3.Lerp(rb.velocity, rb.velocity.normalized * originalSpeed, transitionElapsed / transitionTime);
-            transitionElapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        rb.velocity = rb.velocity.normalized * originalSpeed;
-        speedChangeCoroutine = null;
-    }
-
-    public void ApplyGravityChange(float duration, bool isTemporary)
-    {
-        if (isGravityReversed)
-        {
-            Debug.LogWarning("Gravity reversal is already active. Ignoring this new effect.");
-            return;
-        }
-
-        StartCoroutine(GravityChangeRoutine(duration, isTemporary));
-    }
-
-    private IEnumerator GravityChangeRoutine(float duration, bool isTemporary)
-    {
-        isGravityReversed = true;
-
-        // Inverse la gravité
-        rb.useGravity = false;
-        rb.AddForce(Physics.gravity * -2, ForceMode.Acceleration);
-
-        if (isTemporary)
-        {
-            yield return new WaitForSeconds(duration);
-
-            // Transition fluide vers la gravité normale
-            float elapsedTime = 0f;
-            Vector3 targetGravity = Physics.gravity;
-
-            while (elapsedTime < 1f)
+            switch (platformEffect.effectType)
             {
-                rb.AddForce(Vector3.Lerp(rb.velocity, targetGravity, elapsedTime / 1f), ForceMode.Acceleration);
-                elapsedTime += Time.deltaTime;
-                yield return null;
-            }
+                case PlatformEffectController.PlatformEffectType.SpeedUp:
+                    ApplySpeedIncrease(platformEffect.speedSlowAmount);
+                    break;
 
-            rb.useGravity = true;
-            isGravityReversed = false;
+                case PlatformEffectController.PlatformEffectType.SlowDown:
+                    ApplySpeedReduction(platformEffect.speedSlowAmount);
+                    break;
+
+                case PlatformEffectController.PlatformEffectType.ToggleGravity:
+                    ToggleGravity();
+                    break;
+            }
         }
     }
 
-    public void ToggleGravity()
+    private void ApplySpeedIncrease(float amount)
     {
-        if (!isGravityToggled)
+        Vector3 currentVelocity = rb.velocity;
+        rb.velocity = currentVelocity.normalized * (originalSpeed + amount);
+    }
+
+    private void ApplySpeedReduction(float amount)
+    {
+        Vector3 currentVelocity = rb.velocity;
+        float newSpeed = Mathf.Max(0, originalSpeed - amount); // Empêche une vitesse négative
+        rb.velocity = currentVelocity.normalized * newSpeed;
+    }
+
+    private void ResetSpeedToOriginal()
+    {
+        Vector3 currentVelocity = rb.velocity;
+        rb.velocity = currentVelocity.normalized * originalSpeed;
+    }
+
+    private void ToggleGravity()
+    {
+        // Inverse la gravité entre son état actuel et l'état original
+        if (isGravityToggled)
         {
-            rb.useGravity = false;
-            rb.AddForce(Physics.gravity * -2, ForceMode.Acceleration);
-            isGravityToggled = true;
+            Physics.gravity = originalGravity;
         }
         else
         {
-            rb.useGravity = true;
-            isGravityToggled = false;
+            Physics.gravity = -originalGravity;
         }
+
+        isGravityToggled = !isGravityToggled; // Bascule l'état de gravité
     }
 }
