@@ -47,6 +47,12 @@ public class PlayerController : MonoBehaviour
     public void SetCanMove (bool _canMove)
     {
         canMove = _canMove; 
+    public void SetKinematic(bool _kinematic){
+        rb.isKinematic = _kinematic;
+    }
+
+    public void ApplyForce(Vector3 _vector){
+        rb.AddForce(_vector);
     }
 }
 
