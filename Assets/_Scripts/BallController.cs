@@ -23,9 +23,10 @@ public class BallController : MonoBehaviour
         originalGravity = Physics.gravity;
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
-        PlatformEffectController platformEffect = collision.gameObject.GetComponent<PlatformEffectController>();
+        PlatformEffectController platformEffect = other.gameObject.GetComponent<PlatformEffectController>();
+
         if (platformEffect != null)
         {
             switch (platformEffect.effectType)
