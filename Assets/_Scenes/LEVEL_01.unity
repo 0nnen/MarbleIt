@@ -5230,6 +5230,51 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7561017999252749851, guid: 719d7ec556cb80545943f3f8c8183676,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.6212047
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561017999252749851, guid: 719d7ec556cb80545943f3f8c8183676,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.44328707
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561017999252749851, guid: 719d7ec556cb80545943f3f8c8183676,
+        type: 3}
+      propertyPath: m_Center.x
+      value: 0.1712928
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561017999252749851, guid: 719d7ec556cb80545943f3f8c8183676,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.31060234
+      objectReference: {fileID: 0}
+    - target: {fileID: 7561017999252749851, guid: 719d7ec556cb80545943f3f8c8183676,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.58883375
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303907359443930079, guid: 719d7ec556cb80545943f3f8c8183676,
+        type: 3}
+      propertyPath: m_Size.x
+      value: 0.052547924
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303907359443930079, guid: 719d7ec556cb80545943f3f8c8183676,
+        type: 3}
+      propertyPath: m_Size.z
+      value: 0.48950642
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303907359443930079, guid: 719d7ec556cb80545943f3f8c8183676,
+        type: 3}
+      propertyPath: m_Center.x
+      value: -0.18066405
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303907359443930079, guid: 719d7ec556cb80545943f3f8c8183676,
+        type: 3}
+      propertyPath: m_Center.z
+      value: 0.5922189
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

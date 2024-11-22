@@ -12,6 +12,8 @@ GameObject:
   - component: {fileID: 456343630}
   - component: {fileID: 456343629}
   - component: {fileID: 456343628}
+  - component: {fileID: 2983136710925017717}
+  - component: {fileID: 1052196909916973719}
   m_Layer: 8
   m_Name: Ramp_StraightDown
   m_TagString: Untagged
@@ -108,6 +110,48 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 4300000, guid: 3b99357da0178634995dc5aca051df00, type: 3}
+--- !u!65 &2983136710925017717
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456343627}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.057024986, y: 0.88767517, z: 2.01}
+  m_Center: {x: 0.1714875, y: 0.13604586, z: 0.9999999}
+--- !u!65 &1052196909916973719
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 456343627}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.046334863, y: 0.85786027, z: 2.01}
+  m_Center: {x: -0.17683256, y: 0.13395718, z: 0.9999999}
 --- !u!1 &4472317513244826632
 GameObject:
   m_ObjectHideFlags: 0
