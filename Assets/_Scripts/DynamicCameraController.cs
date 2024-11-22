@@ -27,6 +27,8 @@ public class DynamicCameraController : MonoBehaviour
 
     private Rigidbody ballRigidbody;
 
+    private GameObject entonnoir;
+
     private void Start()
     {
         if (ball == null || cameraTransform == null)
@@ -47,29 +49,52 @@ public class DynamicCameraController : MonoBehaviour
 
     private void LateUpdate()
     {
-        if (ball == null || ballRigidbody == null || cameraTransform == null) return;
+        if (cameraTransform == null) return;
 
-        // Calculate the direction based on the ball's velocity
+        // Si un entonnoir est défini, positionner la caméra par rapport à lui
+        if (entonnoir != null)
+        {
+            // Position cible directement au-dessus de l'entonnoir
+            Vector3 targetPosition = entonnoir.transform.position + Vector3.up * cameraOffset.magnitude * 2;
+
+            // Rotation pour regarder vers le bas
+            Quaternion targetRotation = Quaternion.LookRotation(entonnoir.transform.position - targetPosition);
+
+            // Interpoler la position et la rotation pour un mouvement fluide
+            cameraTransform.position = Vector3.Lerp(cameraTransform.position, targetPosition, Time.deltaTime * positionSmoothing);
+            cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, targetRotation, Time.deltaTime * rotationSmoothing);
+
+            return; // Sortir de la méthode, car le comportement pour la bille n'est pas nécessaire
+        }
+
+        // Comportement par défaut si entonnoir est null
+        if (ball == null || ballRigidbody == null) return;
+
+        // Calculer la direction en fonction de la vitesse de la bille
         Vector3 velocityDirection = ballRigidbody.velocity.normalized;
 
-        // Ignore the Y component of the velocity to keep the camera's Y rotation fixed
+        // Ignorer la composante Y pour stabiliser la rotation verticale
         velocityDirection.y = 0;
 
-        // If the ball is stationary, maintain the current forward direction
+        // Si la bille est immobile, conserver la direction actuelle
         if (velocityDirection == Vector3.zero)
         {
             velocityDirection = cameraTransform.forward;
         }
 
-        // Add the vertical angle offset
-        Quaternion targetRotation = Quaternion.LookRotation(velocityDirection);
-        targetRotation = Quaternion.Euler(verticalAngleOffset, targetRotation.eulerAngles.y, targetRotation.eulerAngles.z);
+        // Ajouter l'offset vertical
+        Quaternion targetRotationForBall = Quaternion.LookRotation(velocityDirection);
+        targetRotationForBall = Quaternion.Euler(verticalAngleOffset, targetRotationForBall.eulerAngles.y, targetRotationForBall.eulerAngles.z);
 
-        // Smoothly rotate the camera towards the target rotation
-        cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, targetRotation, Time.deltaTime * rotationSmoothing);
+        // Rotation fluide vers la direction cible
+        cameraTransform.rotation = Quaternion.Lerp(cameraTransform.rotation, targetRotationForBall, Time.deltaTime * rotationSmoothing);
 
-        // Smoothly update the camera position relative to the ball
-        Vector3 targetPosition = ball.position + cameraTransform.rotation * cameraOffset;
-        cameraTransform.position = Vector3.Lerp(cameraTransform.position, targetPosition, Time.deltaTime * positionSmoothing);
+        // Position cible relative à la bille
+        Vector3 targetPositionForBall = ball.position + cameraTransform.rotation * cameraOffset;
+        cameraTransform.position = Vector3.Lerp(cameraTransform.position, targetPositionForBall, Time.deltaTime * positionSmoothing);
+    }
+
+    public void SetEntonnoir(GameObject _entonnoir){
+        entonnoir = _entonnoir;
     }
 }

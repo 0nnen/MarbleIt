@@ -10,6 +10,7 @@ public class MarbleMovementController : MonoBehaviour
     private Rigidbody rb;
     private Camera mainCamera;
     private Vector3 targetPosition;
+    Vector3 lastDirection;
 
     private void Start()
     {
@@ -19,19 +20,37 @@ public class MarbleMovementController : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        if(context.phase != InputActionPhase.Performed){return;}
-        Vector2 screenPosition = context.ReadValue<Vector2>();
-        Vector3 worldPosition = mainCamera.ScreenToWorldPoint(new Vector3(screenPosition.x, screenPosition.y,10f));
-        targetPosition = new Vector3(worldPosition.x, transform.position.y, transform.position.z);
-    }
+            if (context.phase == InputActionPhase.Performed)
+            {
+                // Lire le delta directement depuis le context (mouvement relatif de l'input)
+                Vector2 delta = context.ReadValue<Vector2>();
 
-    void FixedUpdate(){
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        if(Mathf.Abs(transform.position.x - targetPosition.x) > 0.1f && targetPosition != Vector3.zero){
-            rb.velocity = new Vector3(direction.x * moveSpeed, rb.velocity.y, rb.velocity.z);
-        }else if(Mathf.Abs(transform.position.x - targetPosition.x) <= 0.1f && targetPosition != Vector3.zero){
-            rb.velocity = new Vector3(0f, rb.velocity.y, rb.velocity.z);
-            targetPosition = Vector3.zero;
-        }
+                // Si le delta est nul ou trop faible, on ne fait rien
+                if (delta.sqrMagnitude < 0.01f) return;
+
+                // Normaliser le delta pour obtenir uniquement la direction
+                delta.Normalize();
+
+                // Convertir le delta dans l'espace de la caméra
+                Vector3 screenToWorldDelta = mainCamera.transform.TransformDirection(new Vector3(delta.x, 0f, delta.y));
+                
+                // Stocker la direction comme la direction dans laquelle appliquer la force
+                lastDirection = screenToWorldDelta.normalized;
+
+                // Appliquer la force dans la direction calculée
+                rb.AddForce(lastDirection * 1f, ForceMode.Impulse);
+            }
+            
     }
 }
+
+    // void FixedUpdate(){
+    //     Vector3 direction = (targetPosition - transform.position).normalized;
+    //     if(Mathf.Abs(transform.position.x - targetPosition.x) > 0.1f && targetPosition != Vector3.zero){
+    //         rb.velocity = new Vector3(direction.x * moveSpeed, rb.velocity.y, rb.velocity.z);
+    //     }else if(Mathf.Abs(transform.position.x - targetPosition.x) <= 0.1f && targetPosition != Vector3.zero){
+    //         rb.velocity = new Vector3(0f, rb.velocity.y, rb.velocity.z);
+    //         targetPosition = Vector3.zero;
+    //     }
+    // }
+
