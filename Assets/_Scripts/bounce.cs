@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class bounce : MonoBehaviour
 {
+    public float bounceForce;
     [SerializeField] GameObject bille;
     // Start is called before the first frame update
     void Start()
@@ -20,7 +21,7 @@ public class bounce : MonoBehaviour
     {
         if (bille != null)
         {
-            bille.GetComponentInChildren<Rigidbody>().AddForce(0,100,0, ForceMode.Impulse);
+            bille.GetComponentInChildren<Rigidbody>().AddForce(0,bounceForce,0, ForceMode.Impulse);
         }
     }
 }
