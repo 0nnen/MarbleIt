@@ -31,6 +31,8 @@ public class CameraController : MonoBehaviour
 
     private GameObject finishLine;
 
+    Vector3 velocityDirection;
+
     private void Start()
     {
         if (ball == null || cameraTransform == null)
@@ -47,6 +49,7 @@ public class CameraController : MonoBehaviour
             enabled = false;
             return;
         }
+        velocityDirection = ballRigidbody.velocity.normalized;
     }
 
     private void LateUpdate()
@@ -102,13 +105,17 @@ public class CameraController : MonoBehaviour
             return; // Sortir de la méthode, car le comportement pour la bille n'est pas nécessaire
         }
 
-
+        
 
         // Comportement par défaut si entonnoir est null
         if (ball == null || ballRigidbody == null) return;
 
         // Calculer la direction en fonction de la vitesse de la bille
-        Vector3 velocityDirection = ballRigidbody.velocity.normalized;
+        if (ballRigidbody.velocity.magnitude >= 3.5f)
+        {
+            velocityDirection = ballRigidbody.velocity.normalized;
+            Debug.Log(ballRigidbody.velocity.normalized);
+        }
 
         // Ignorer la composante Y pour stabiliser la rotation verticale
         velocityDirection.y = 0;
