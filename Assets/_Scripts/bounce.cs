@@ -2,26 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class bounce : MonoBehaviour
+public class Bounce : MonoBehaviour
 {
     public float bounceForce;
-    [SerializeField] GameObject bille;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
-        if (bille != null)
+        // Vérifie si l'objet entrant a le tag "Player"
+        if (other.CompareTag("Player"))
         {
-            bille.GetComponentInChildren<Rigidbody>().AddForce(0,bounceForce,0, ForceMode.Impulse);
+            Rigidbody rb = other.GetComponent<Rigidbody>();
+            if (rb != null)
+            {
+                rb.AddForce(Vector3.up * bounceForce, ForceMode.Impulse);
+            }
         }
     }
 }

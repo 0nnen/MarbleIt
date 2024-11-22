@@ -32,15 +32,18 @@ public class BallController : MonoBehaviour
             switch (platformEffect.effectType)
             {
                 case PlatformEffectController.PlatformEffectType.SpeedUp:
-                    ApplySpeedIncrease(platformEffect.speedSlowAmount);
+                    ApplySpeedIncrease(platformEffect.Amount);
                     break;
 
                 case PlatformEffectController.PlatformEffectType.SlowDown:
-                    ApplySpeedReduction(platformEffect.speedSlowAmount);
+                    ApplySpeedReduction(platformEffect.Amount);
                     break;
 
                 case PlatformEffectController.PlatformEffectType.ToggleGravity:
                     ToggleGravity();
+                    break;
+                case PlatformEffectController.PlatformEffectType.BounceUp:
+                    BounceUp(platformEffect.Amount);
                     break;
             }
         }
@@ -78,5 +81,10 @@ public class BallController : MonoBehaviour
         }
 
         isGravityToggled = !isGravityToggled; // Bascule l'état de gravité
+    }
+
+   private void BounceUp(float amount)
+    {
+        rb.AddForce(Vector3.up * amount, ForceMode.Impulse);
     }
 }

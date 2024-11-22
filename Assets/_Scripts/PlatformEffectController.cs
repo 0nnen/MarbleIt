@@ -7,7 +7,8 @@ public class PlatformEffectController : MonoBehaviour
     {
         SpeedUp,
         SlowDown,
-        ToggleGravity
+        ToggleGravity,
+        BounceUp
     }
 
     [Header("Effect Settings")]
@@ -16,7 +17,7 @@ public class PlatformEffectController : MonoBehaviour
 
     [Tooltip("Amount of speed/slow to add when in contact with this platform.")]
     [Range(0, 50)]
-    public float speedSlowAmount = 10f;
+    public float Amount = 10f;
 
     private void Start()
     {
