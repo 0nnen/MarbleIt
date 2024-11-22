@@ -9,19 +9,35 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private GameObject storePopup;
     [SerializeField] private GameObject settingsPopup;
     [SerializeField] private GameObject messagePopup;
-    [SerializeField] private GameObject skinPopup; 
+    [SerializeField] private GameObject skinPopup;
+
+    [SerializeField] private AudioSource buttonClickSound; 
 
     private string[] sceneTab = { "Level1", "Level2", "Level3" };
     private int currentLevel = 0;
 
+    private void PlayButtonClickSound()
+    {
+        if (buttonClickSound != null)
+        {
+            buttonClickSound.Play();
+        }
+        else
+        {
+            Debug.LogWarning("Aucun AudioSource assigné pour le son des boutons !");
+        }
+    }
+
     public void PlayGame()
     {
+        PlayButtonClickSound();
         string sceneToLoad = sceneTab[currentLevel];
         SceneManager.LoadScene(sceneToLoad);
     }
 
     public void ShowCredits()
     {
+        PlayButtonClickSound();
         if (creditsPopup != null && mainMenu != null)
         {
             creditsPopup.SetActive(true);
@@ -31,6 +47,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ShowStore()
     {
+        PlayButtonClickSound();
         if (storePopup != null && mainMenu != null)
         {
             storePopup.SetActive(true);
@@ -40,6 +57,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ShowSettings()
     {
+        PlayButtonClickSound();
         if (settingsPopup != null && mainMenu != null)
         {
             settingsPopup.SetActive(true);
@@ -49,6 +67,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ShowMessage()
     {
+        PlayButtonClickSound();
         if (messagePopup != null && mainMenu != null)
         {
             messagePopup.SetActive(true);
@@ -58,6 +77,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ShowLevel()
     {
+        PlayButtonClickSound();
         if (levelSelector != null && mainMenu != null)
         {
             levelSelector.SetActive(true);
@@ -67,6 +87,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void ShowSkinPopup()
     {
+        PlayButtonClickSound();
         if (skinPopup != null && mainMenu != null)
         {
             skinPopup.SetActive(true);
@@ -76,6 +97,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void BackToMenu()
     {
+        PlayButtonClickSound();
         if (creditsPopup != null) creditsPopup.SetActive(false);
         if (storePopup != null) storePopup.SetActive(false);
         if (settingsPopup != null) settingsPopup.SetActive(false);
@@ -101,6 +123,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void UseSkin(string skinName)
     {
+        PlayButtonClickSound();
         Debug.Log($"Skin activé : {skinName}");
     }
 }
