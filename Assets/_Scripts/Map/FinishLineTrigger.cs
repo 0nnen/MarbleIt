@@ -1,10 +1,9 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class FinishLineTrigger : MonoBehaviour
 {
 
-    private CameraController cameraController; // Référence au contrôleur de caméra
+    private CameraController cameraController; // Rï¿½fï¿½rence au contrï¿½leur de camï¿½ra
     public Canvas canvas;
     public GameObject confettiPrefab;
 
@@ -13,9 +12,9 @@ public class FinishLineTrigger : MonoBehaviour
         cameraController = Camera.main.GetComponent<CameraController>();
         if (cameraController == null)
         {
-            Debug.LogError("CameraController non trouvé sur la caméra principale.");
+            Debug.LogError("CameraController non trouvï¿½ sur la camï¿½ra principale.");
         }
-        // S'assurer que le canvas est désactivé au début
+        // S'assurer que le canvas est dï¿½sactivï¿½ au dï¿½but
         if (canvas != null)
         {
             canvas.gameObject.SetActive(false);
@@ -24,26 +23,26 @@ public class FinishLineTrigger : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Vérifie si l'objet entrant a le tag "Player"
+        // Vï¿½rifie si l'objet entrant a le tag "Player"
         if (other.CompareTag("Player"))
         {
-            // Désactiver le contrôle du joueur
+            // Dï¿½sactiver le contrï¿½le du joueur
             other.GetComponent<PlayerController>().SetCanMove(false);
 
-            // Activer la vue de la ligne d'arrivée
+            // Activer la vue de la ligne d'arrivï¿½e
             if (cameraController != null)
             {
                 cameraController.SetFinishLine(gameObject);
-                Debug.Log("Vue de ligne d'arrivée activée.");
+                Debug.Log("Vue de ligne d'arrivï¿½e activï¿½e.");
             }
 
             // Activer le canvas
             if (canvas != null)
             {
                 canvas.gameObject.SetActive(true);
-                Debug.Log("Canvas activé.");
+                Debug.Log("Canvas activï¿½.");
 
-                // Faire apparaître les confettis
+                // Faire apparaï¿½tre les confettis
                 SpawnConfetti();
             }
         }
@@ -60,12 +59,12 @@ public class FinishLineTrigger : MonoBehaviour
                 // Instancier les confettis au centre du canvas
                 GameObject confettiInstance = Instantiate(confettiPrefab, canvasTransform.position, Quaternion.identity);
                 confettiInstance.transform.SetParent(canvas.transform, false); // Assurer que les confettis restent dans le canvas
-                Debug.Log("Confettis spawnés.");
+                Debug.Log("Confettis spawnï¿½s.");
             }
         }
         else
         {
-            Debug.LogWarning("ConfettiPrefab ou Canvas non assigné.");
+            Debug.LogWarning("ConfettiPrefab ou Canvas non assignï¿½.");
         }
     }
 }

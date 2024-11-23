@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 
 
 #pragma warning disable IDE0005
-using Serilog = Meryel.Serilog;
-using YamlDotNet = Meryel.UnityCodeAssist.YamlDotNet;
 #pragma warning restore IDE0005
 
 
@@ -17,7 +14,7 @@ using YamlDotNet = Meryel.UnityCodeAssist.YamlDotNet;
 
 namespace Meryel.UnityCodeAssist.Editor.Input
 {
-    
+
 
     internal class UnityInputManager
     {

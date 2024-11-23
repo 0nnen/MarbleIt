@@ -1,12 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Concurrent;
-using UnityEngine;
 using UnityEditor;
 
 
 #pragma warning disable IDE0005
-using Serilog = Meryel.Serilog;
 #pragma warning restore IDE0005
 
 

@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class LevelSelectorManager : MonoBehaviour
 {
@@ -42,13 +41,13 @@ public class LevelSelectorManager : MonoBehaviour
     {
         if (levelIndex <= unlockedLevelIndex)
         {
-            Debug.Log($"Level {levelIndex + 1} commencé.");
-            Debug.Log($"Level {levelIndex + 1} réussi ! Débloquer le suivant...");
+            Debug.Log($"Level {levelIndex + 1} commencï¿½.");
+            Debug.Log($"Level {levelIndex + 1} rï¿½ussi ! Dï¿½bloquer le suivant...");
             UnlockNextLevel(levelIndex);
         }
         else
         {
-            Debug.Log($"Level {levelIndex + 1} est verrouillé.");
+            Debug.Log($"Level {levelIndex + 1} est verrouillï¿½.");
         }
     }
 

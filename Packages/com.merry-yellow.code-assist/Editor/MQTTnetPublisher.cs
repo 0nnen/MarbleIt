@@ -17,9 +17,6 @@ using Meryel.UnityCodeAssist.MQTTnet.Diagnostics;
 
 
 #pragma warning disable IDE0005
-using Serilog = Meryel.Serilog;
-using MQTTnet = Meryel.UnityCodeAssist.MQTTnet;
-using Newtonsoft = Meryel.UnityCodeAssist.Newtonsoft;
 #pragma warning restore IDE0005
 
 

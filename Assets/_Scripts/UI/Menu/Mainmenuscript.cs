@@ -21,12 +21,12 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider soundVolumeSlider;
 
-    private string[] sceneTab = { "Level1", "Level2", "Level3" };
+    private string[] sceneTab = { "LEVEL_03", "Level2", "Level3" };
     private int currentLevel = 0;
 
     private void Start()
     {
-        // Vérification de la musique en arrière-plan
+        // Vï¿½rification de la musique en arriï¿½re-plan
         if (gameObject.GetComponent<AudioSource>() != null)
         {
             gameObject.GetComponent<AudioSource>().gameObject.SetActive(true);  // Ensure the game object is active
@@ -35,7 +35,7 @@ public class MainMenuScript : MonoBehaviour
             // Initialisation du volume de la musique
             if (gameObject.GetComponent<AudioSource>().volume == 0)
             {
-                gameObject.GetComponent<AudioSource>().volume = 0.5f; // Valeur par défaut
+                gameObject.GetComponent<AudioSource>().volume = 0.5f; // Valeur par dï¿½faut
             }
 
             gameObject.GetComponent<AudioSource>().Play();
@@ -48,10 +48,10 @@ public class MainMenuScript : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Aucune AudioSource assignée à backgroundMusic !");
+            Debug.LogWarning("Aucune AudioSource assignï¿½e ï¿½ backgroundMusic !");
         }
 
-        // Vérification du son des boutons
+        // Vï¿½rification du son des boutons
         if (buttonClickSound != null)
         {
             if (soundVolumeSlider != null)
@@ -61,44 +61,44 @@ public class MainMenuScript : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Aucune AudioSource assignée pour le son des boutons !");
+            Debug.LogWarning("Aucune AudioSource assignï¿½e pour le son des boutons !");
         }
 
-        // Initialisation des sliders et des événements de changement de valeur
+        // Initialisation des sliders et des ï¿½vï¿½nements de changement de valeur
         
     }
 
-    // Méthode de mise à jour du volume de la musique
+    // Mï¿½thode de mise ï¿½ jour du volume de la musique
     public void SetMusicVolume()
     {
         if (gameObject.GetComponent<AudioSource>() != null)
         {
             gameObject.GetComponent<AudioSource>().volume = musicVolumeSlider.value;
-            Debug.Log($"Volume de la musique mis à jour : {musicVolumeSlider.value}");
+            Debug.Log($"Volume de la musique mis ï¿½ jour : {musicVolumeSlider.value}");
         }
         else
         {
-            Debug.LogWarning("Aucune AudioSource assignée à backgroundMusic !");
+            Debug.LogWarning("Aucune AudioSource assignï¿½e ï¿½ backgroundMusic !");
         }
     }
 
 
 
-    // Méthode de mise à jour du volume du son des boutons
+    // Mï¿½thode de mise ï¿½ jour du volume du son des boutons
     private void SetSoundVolume()
     {
         if (buttonClickSound != null)
         {
             buttonClickSound.volume = soundVolumeSlider.value;
-            Debug.Log($"Volume du son des boutons mis à jour : {soundVolumeSlider.value}");
+            Debug.Log($"Volume du son des boutons mis ï¿½ jour : {soundVolumeSlider.value}");
         }
         else
         {
-            Debug.LogWarning("Aucun AudioSource assigné pour le son des boutons !");
+            Debug.LogWarning("Aucun AudioSource assignï¿½ pour le son des boutons !");
         }
     }
 
-    // Méthode pour jouer le son du bouton
+    // Mï¿½thode pour jouer le son du bouton
     private void PlayButtonClickSound()
     {
         if (buttonClickSound != null)
@@ -107,7 +107,7 @@ public class MainMenuScript : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("Aucun AudioSource assigné pour le son des boutons !");
+            Debug.LogWarning("Aucun AudioSource assignï¿½ pour le son des boutons !");
         }
     }
 
@@ -187,6 +187,6 @@ public class MainMenuScript : MonoBehaviour
     public void UseSkin(string skinName)
     {
         PlayButtonClickSound();
-        Debug.Log($"Skin activé : {skinName}");
+        Debug.Log($"Skin activï¿½ : {skinName}");
     }
 }
