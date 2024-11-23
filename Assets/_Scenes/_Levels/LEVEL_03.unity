@@ -5070,7 +5070,7 @@ MonoBehaviour:
     m_Bits: 1
   m_VolumeTrigger: {fileID: 0}
   m_VolumeFrameworkUpdateModeOption: 2
-  m_RenderPostProcessing: 1
+  m_RenderPostProcessing: 0
   m_Antialiasing: 0
   m_AntialiasingQuality: 2
   m_StopNaN: 0
@@ -10418,8 +10418,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14cd5f66b8e010e4b841e394100ed279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  canvas: {fileID: 884385710}
+  timer: {fileID: 0}
+  win1StarPanelPrefab: {fileID: 0}
+  win2StarsPanelPrefab: {fileID: 0}
+  win3StarsPanelPrefab: {fileID: 0}
+  uiParent: {fileID: 0}
   confettiPrefab: {fileID: 280417210}
+  currentLevelIndex: 0
 --- !u!1 &1893056682
 GameObject:
   m_ObjectHideFlags: 0
