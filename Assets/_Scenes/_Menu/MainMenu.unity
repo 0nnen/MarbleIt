@@ -9872,6 +9872,12 @@ PrefabInstance:
       propertyPath: m_AnchorMin.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 961693324999880460, guid: 717b471029722f34c8bf418db99d0f1d,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cfac5312020e7174999dbb1e1d1fa0b9,
+        type: 3}
     - target: {fileID: 1021276249052712566, guid: 717b471029722f34c8bf418db99d0f1d,
         type: 3}
       propertyPath: m_Name
@@ -10136,6 +10142,26 @@ PrefabInstance:
         type: 3}
       propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 4664736355637513561, guid: 717b471029722f34c8bf418db99d0f1d,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 8.813119
+      objectReference: {fileID: 0}
+    - target: {fileID: 4664736355637513561, guid: 717b471029722f34c8bf418db99d0f1d,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 7.9411507
+      objectReference: {fileID: 0}
+    - target: {fileID: 4664736355637513561, guid: 717b471029722f34c8bf418db99d0f1d,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 2.4913414
+      objectReference: {fileID: 0}
+    - target: {fileID: 4664736355637513561, guid: 717b471029722f34c8bf418db99d0f1d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -360
       objectReference: {fileID: 0}
     - target: {fileID: 4675994912302924900, guid: 717b471029722f34c8bf418db99d0f1d,
         type: 3}
@@ -10579,6 +10605,7 @@ PrefabInstance:
     - {fileID: 8779773919449552843, guid: 717b471029722f34c8bf418db99d0f1d, type: 3}
     - {fileID: 7484966776069602192, guid: 717b471029722f34c8bf418db99d0f1d, type: 3}
     - {fileID: -2414977741965534990, guid: 717b471029722f34c8bf418db99d0f1d, type: 3}
+    - {fileID: 8820250564652199721, guid: 717b471029722f34c8bf418db99d0f1d, type: 3}
     m_AddedGameObjects:
     - targetCorrespondingSourceObject: {fileID: 6742112314114950041, guid: 717b471029722f34c8bf418db99d0f1d,
         type: 3}
