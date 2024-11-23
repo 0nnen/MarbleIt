@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class FinishLineTrigger : MonoBehaviour
 {
-    public Timer timer; // Référence au Timer
+    public Timer timer;
     public GameObject win1StarPanelPrefab;
     public GameObject win2StarsPanelPrefab;
     public GameObject win3StarsPanelPrefab;
 
-    public Transform uiParent; // Parent dans la hiérarchie de la scène pour les panels
+    public Transform uiParent;
     public GameObject confettiPrefab;
+
+    [SerializeField] private int currentLevelIndex; 
 
     private void OnTriggerEnter(Collider other)
     {
@@ -16,7 +18,6 @@ public class FinishLineTrigger : MonoBehaviour
         {
             float elapsedTime = timer.GetTime();
 
-            // Conditions pour afficher les panels correspondants
             if (elapsedTime <= 10f)
             {
                 ShowPanel(win3StarsPanelPrefab);
@@ -37,8 +38,9 @@ public class FinishLineTrigger : MonoBehaviour
                 Debug.Log("Temps écoulé, pas de victoire !");
             }
 
-            // Déclencher les confettis
             SpawnConfetti();
+
+            UnlockNextLevel();
         }
     }
 
@@ -46,11 +48,9 @@ public class FinishLineTrigger : MonoBehaviour
     {
         if (panelPrefab != null && uiParent != null)
         {
-            // Instancier le prefab et le placer dans la hiérarchie UI
             GameObject panelInstance = Instantiate(panelPrefab, uiParent);
             panelInstance.SetActive(true);
 
-            // Ajouter les boutons à la logique (via un script WinLoseUI)
             WinLoseUI winLoseUI = panelInstance.GetComponent<WinLoseUI>();
             if (winLoseUI != null)
             {
@@ -68,6 +68,20 @@ public class FinishLineTrigger : MonoBehaviour
         if (confettiPrefab != null)
         {
             Instantiate(confettiPrefab, transform.position, Quaternion.identity);
+        }
+    }
+
+    private void UnlockNextLevel()
+    {
+        int highestUnlockedLevel = PlayerPrefs.GetInt("HighestUnlockedLevel", 0);
+
+        SaveManager.SaveLevelProgress(currentLevelIndex);
+
+        if (currentLevelIndex + 1 > highestUnlockedLevel)
+        {
+            PlayerPrefs.SetInt("HighestUnlockedLevel", currentLevelIndex + 1);
+            PlayerPrefs.Save();
+            Debug.Log($"Niveau {currentLevelIndex + 1} débloqué !");
         }
     }
 }

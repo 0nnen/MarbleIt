@@ -7627,8 +7627,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timer: {fileID: 1239781542}
   win1StarPanelPrefab: {fileID: 1832227703}
-  win2StarsPanelPrefab: {fileID: 0}
-  win3StarsPanelPrefab: {fileID: 0}
+  win2StarsPanelPrefab: {fileID: 4906114984378877900}
+  win3StarsPanelPrefab: {fileID: 5963666156366049246}
   uiParent: {fileID: 608145155}
   confettiPrefab: {fileID: 280417210}
 --- !u!1 &1893056682
@@ -9206,6 +9206,16 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1213684558517983336, guid: 87e5c366c4614d641a9e22dbd7d6d213,
+        type: 3}
+      propertyPath: nextLevelSceneName
+      value: LEVEL_03
+      objectReference: {fileID: 0}
+    - target: {fileID: 2393712455467906305, guid: 87e5c366c4614d641a9e22dbd7d6d213,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3640875067126465050, guid: 87e5c366c4614d641a9e22dbd7d6d213,
         type: 3}
       propertyPath: m_Pivot.x
@@ -9316,6 +9326,18 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87e5c366c4614d641a9e22dbd7d6d213, type: 3}
+--- !u!1 &4906114984378877900 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6166941687232149875, guid: 87e5c366c4614d641a9e22dbd7d6d213,
+    type: 3}
+  m_PrefabInstance: {fileID: 1684011974778481954}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5963666156366049246 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2393712455467906305, guid: 87e5c366c4614d641a9e22dbd7d6d213,
+    type: 3}
+  m_PrefabInstance: {fileID: 1684011974778481954}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

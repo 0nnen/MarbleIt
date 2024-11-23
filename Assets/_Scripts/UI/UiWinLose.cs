@@ -4,12 +4,10 @@ using UnityEngine.SceneManagement;
 public class WinLoseUI : MonoBehaviour
 {
     public string menuSceneName = "MainMenu";
-    public string nextLevelSceneName = "NextLevel"; // Nom de la scène suivante (modifiable dans l'inspecteur)
+    public string nextLevelSceneName = "NextLevel"; 
 
-    // Appelé par le script `FinishLineTrigger` pour initialiser les boutons
     public void InitializeButtons()
     {
-        // Exemple : Associer un bouton "Rejouer" au restart
         Transform replayButton = transform.Find("ReplayButton");
         if (replayButton != null)
         {
@@ -31,16 +29,16 @@ public class WinLoseUI : MonoBehaviour
 
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); // Recharge la scène actuelle
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
     }
 
     public void GoToMenu()
     {
-        SceneManager.LoadScene(menuSceneName); // Charge la scène du menu
+        SceneManager.LoadScene(menuSceneName); 
     }
 
     public void GoToNextLevel()
     {
-        SceneManager.LoadScene(nextLevelSceneName); // Charge la scène du niveau suivant
+        SceneManager.LoadScene(nextLevelSceneName); 
     }
 }
