@@ -1,25 +1,26 @@
 using UnityEngine;
 
-public class collectable : MonoBehaviour
+public class Collectable : MonoBehaviour
 {
-    [SerializeField] score bille;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private Score score; // Référence au script Score
+    [SerializeField] private DisplayCoin displayCoin; // Référence au script DisplayCoin
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
     private void OnTriggerEnter(Collider other)
     {
-        if (bille != null)
+        if (other.CompareTag("Player")) // Vérifie si c'est le joueur qui collecte l'objet
         {
-            bille.setCoins();
-            Destroy(gameObject);
+
+             // Incrémente le score
+             displayCoin.AddCoin();
+
+             // Met à jour l'interface utilisateur
+             if (displayCoin != null)
+             {
+                 displayCoin.UpdateCoinText();
+             }
+
+             // Détruit l'objet collectable
+             Destroy(gameObject);
         }
     }
 }

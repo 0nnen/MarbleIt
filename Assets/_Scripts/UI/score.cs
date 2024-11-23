@@ -1,27 +1,18 @@
 using UnityEngine;
 
-public class score : MonoBehaviour
+public class Score : MonoBehaviour
 {
     private int coins = 0;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
 
-    }
-
-    public int getCoins()
-    {
-        return coins;
-    }
-    public void setCoins()
+    // Incrémente le score
+    public void AddCoin()
     {
         coins++;
-        Debug.Log("Coins: " + coins);
+    }
+
+    public int GetCoins()
+    {
+        return coins;
     }
 }

@@ -11,7 +11,6 @@ public class StartManager : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext context)
     {
-        Debug.Log(context.ReadValue<Vector2>());
         if (context.phase == InputActionPhase.Performed && canInput)
         {
             Debug.Log("Salam les patissier");

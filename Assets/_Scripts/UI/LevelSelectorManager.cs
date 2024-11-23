@@ -59,4 +59,18 @@ public class LevelSelectorManager : MonoBehaviour
             InitializeLevels(); 
         }
     }
+
+    // Réinitialise les niveaux et les sauvegardes à leur état initial.
+    public void ResetLevelProgress()
+    {
+        // Réinitialiser la progression et la sauvegarde
+        PlayerPrefs.DeleteKey("HighestUnlockedLevel");
+        SaveManager.ResetProgress();
+
+        // Réinitialiser les niveaux dans l'UI
+        PlayerPrefs.SetInt("HighestUnlockedLevel", 0);
+        InitializeLevels();
+
+        Debug.Log("Progression des niveaux réinitialisée.");
+    }
 }
