@@ -49,7 +49,6 @@ public class CameraController : MonoBehaviour
             enabled = false;
             return;
         }
-        velocityDirection = ballRigidbody.velocity.normalized;
     }
 
     private void LateUpdate()
@@ -111,10 +110,9 @@ public class CameraController : MonoBehaviour
         if (ball == null || ballRigidbody == null) return;
 
         // Calculer la direction en fonction de la vitesse de la bille
-        if (ballRigidbody.velocity.magnitude >= 3.5f)
+        if (ballRigidbody.velocity.magnitude >= 3f)
         {
             velocityDirection = ballRigidbody.velocity.normalized;
-            Debug.Log(ballRigidbody.velocity.normalized);
         }
 
         // Ignorer la composante Y pour stabiliser la rotation verticale

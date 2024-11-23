@@ -24,5 +24,6 @@ public class score : MonoBehaviour
     public void setCoins()
     {
         coins++;
+        Debug.Log("Coins: " + coins);
     }
 }
