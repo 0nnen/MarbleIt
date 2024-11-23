@@ -1,5 +1,5 @@
 using UnityEngine;
-using UnityEngine.SceneManagement; // Nécessaire pour recharger la scène
+using UnityEngine.SceneManagement; 
 
 public class ResetOnTrigger : MonoBehaviour
 {
