@@ -21,9 +21,9 @@ public class MainMenuScript : MonoBehaviour
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider soundVolumeSlider;
 
-    private string[] sceneTab = { "Level1", "Level2", "Level3" };
+    private string[] sceneTab = { "Test", "LEVEL_02", "LEVEL_03" };
     private int currentLevel = 0;
-
+    private const string CurrentLevelKey = "CurrentLevel";
     private void Start()
     {
         // V�rification de la musique en arri�re-plan
@@ -111,9 +111,23 @@ public class MainMenuScript : MonoBehaviour
     public void PlayGame()
     {
         PlayButtonClickSound();
-        string sceneToLoad = sceneTab[currentLevel];
-        SceneManager.LoadScene(sceneToLoad);
+
+        // Charger le niveau actuel depuis la sauvegarde
+        currentLevel = GetCurrentLevel();
+
+        // Vérifier si le niveau existe dans la liste
+        if (currentLevel < sceneTab.Length)
+        {
+            string sceneToLoad = sceneTab[currentLevel];
+            Debug.Log($"Chargement du niveau : {sceneToLoad}");
+            SceneManager.LoadScene(sceneToLoad);
+        }
+        else
+        {
+            Debug.LogWarning("Tous les niveaux ont été complétés ou niveau invalide !");
+        }
     }
+
 
     public void ShowCredits()
     {
@@ -186,4 +200,32 @@ public class MainMenuScript : MonoBehaviour
         PlayButtonClickSound();
         Debug.Log($"Skin activ� : {skinName}");
     }
+    private int GetCurrentLevel()
+    {
+        return PlayerPrefs.GetInt(CurrentLevelKey, 0); // Par défaut, niveau 0
+    }
+
+    private void SaveCurrentLevel(int levelIndex)
+    {
+        PlayerPrefs.SetInt(CurrentLevelKey, levelIndex);
+        PlayerPrefs.Save();
+        Debug.Log($"Niveau actuel sauvegardé : {levelIndex}");
+    }
+
+    public void UnlockNextLevel()
+    {
+        int currentLevel = GetCurrentLevel();
+
+        // Vérifier si on peut débloquer un niveau supplémentaire
+        if (currentLevel + 1 < sceneTab.Length)
+        {
+            SaveCurrentLevel(currentLevel + 1);
+            Debug.Log($"Prochain niveau débloqué : {currentLevel + 1}");
+        }
+        else
+        {
+            Debug.Log("Tous les niveaux sont déjà débloqués.");
+        }
+    }
+
 }
