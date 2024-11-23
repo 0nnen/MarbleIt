@@ -1,20 +1,21 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelSelectorManager : MonoBehaviour
 {
     [System.Serializable]
     public class Level
     {
-        public GameObject levelPanel; 
-        public Button playButton;    
+        public GameObject levelPanel;
+        public Button playButton;
+        public string sceneName;
     }
 
-    [SerializeField] private Level[] levels; 
-    [SerializeField] private Color lockedColor = Color.gray; 
+    [SerializeField] private Level[] levels;
+    [SerializeField] private Color lockedColor = Color.gray;
     [SerializeField] private Color unlockedColor = Color.white;
-
-    private int unlockedLevelIndex = 0; 
+    [SerializeField] private Color completedColor = Color.white;
 
     private void Start()
     {
@@ -23,54 +24,50 @@ public class LevelSelectorManager : MonoBehaviour
 
     private void InitializeLevels()
     {
+        int highestUnlockedLevel = PlayerPrefs.GetInt("HighestUnlockedLevel", 0);
+
         for (int i = 0; i < levels.Length; i++)
         {
-            bool isUnlocked = i <= unlockedLevelIndex;
+            bool isUnlocked = (i == 0) || (i <= highestUnlockedLevel);
+            bool isCompleted = SaveManager.IsLevelCompleted(i);
 
             levels[i].playButton.interactable = isUnlocked;
 
-            Color targetColor = isUnlocked ? unlockedColor : lockedColor;
+            Color targetColor = lockedColor;
+            if (isCompleted)
+            {
+                targetColor = completedColor;
+            }
+            else if (isUnlocked)
+            {
+                targetColor = unlockedColor;
+            }
+
             levels[i].levelPanel.GetComponent<Image>().color = targetColor;
 
-            int levelIndex = i; 
-            levels[i].playButton.onClick.AddListener(() => PlayLevel(levelIndex));
+            int levelIndex = i;
+            levels[i].playButton.onClick.RemoveAllListeners();
+            levels[i].playButton.onClick.AddListener(() => PlayLevel(levels[levelIndex].sceneName));
         }
     }
 
-    private void PlayLevel(int levelIndex)
+    private void PlayLevel(string sceneName)
     {
-        if (levelIndex <= unlockedLevelIndex)
-        {
-            Debug.Log($"Level {levelIndex + 1} commenc�.");
-            Debug.Log($"Level {levelIndex + 1} r�ussi ! D�bloquer le suivant...");
-            UnlockNextLevel(levelIndex);
-        }
-        else
-        {
-            Debug.Log($"Level {levelIndex + 1} est verrouill�.");
-        }
+        Debug.Log($"Chargement de la sc�ne {sceneName}...");
+        SceneManager.LoadScene(sceneName);
     }
 
-    private void UnlockNextLevel(int currentLevelIndex)
-    {
-        if (currentLevelIndex + 1 < levels.Length)
-        {
-            unlockedLevelIndex = currentLevelIndex + 1;
-            InitializeLevels(); 
-        }
-    }
-
-    // Réinitialise les niveaux et les sauvegardes à leur état initial.
+    // R�initialise les niveaux et les sauvegardes � leur �tat initial.
     public void ResetLevelProgress()
     {
-        // Réinitialiser la progression et la sauvegarde
+        // R�initialiser la progression et la sauvegarde
         PlayerPrefs.DeleteKey("HighestUnlockedLevel");
         SaveManager.ResetProgress();
 
-        // Réinitialiser les niveaux dans l'UI
+        // R�initialiser les niveaux dans l'UI
         PlayerPrefs.SetInt("HighestUnlockedLevel", 0);
         InitializeLevels();
 
-        Debug.Log("Progression des niveaux réinitialisée.");
+        Debug.Log("Progression des niveaux r�initialis�e.");
     }
 }

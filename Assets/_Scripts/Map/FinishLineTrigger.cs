@@ -2,69 +2,86 @@ using UnityEngine;
 
 public class FinishLineTrigger : MonoBehaviour
 {
+    public timer timer;
+    public GameObject win1StarPanelPrefab;
+    public GameObject win2StarsPanelPrefab;
+    public GameObject win3StarsPanelPrefab;
 
-    private CameraController cameraController; // R�f�rence au contr�leur de cam�ra
-    public Canvas canvas;
+    public Transform uiParent;
     public GameObject confettiPrefab;
 
-    private void Awake()
-    {
-        cameraController = Camera.main.GetComponent<CameraController>();
-        if (cameraController == null)
-        {
-            Debug.LogError("CameraController non trouv� sur la cam�ra principale.");
-        }
-        // S'assurer que le canvas est d�sactiv� au d�but
-        if (canvas != null)
-        {
-            canvas.gameObject.SetActive(false);
-        }
-    }
+    [SerializeField] private int currentLevelIndex;
 
     private void OnTriggerEnter(Collider other)
     {
-        // V�rifie si l'objet entrant a le tag "Player"
         if (other.CompareTag("Player"))
         {
-            // D�sactiver le contr�le du joueur
-            other.GetComponent<PlayerController>().SetCanMove(false);
+            float elapsedTime = timer.getTime();
 
-            // Activer la vue de la ligne d'arriv�e
-            if (cameraController != null)
+            if (elapsedTime <= 10f)
             {
-                cameraController.SetFinishLine(gameObject);
-                Debug.Log("Vue de ligne d'arriv�e activ�e.");
+                ShowPanel(win3StarsPanelPrefab);
+                Debug.Log("Victoire avec 3 �toiles !");
+            }
+            else if (elapsedTime <= 20f)
+            {
+                ShowPanel(win2StarsPanelPrefab);
+                Debug.Log("Victoire avec 2 �toiles !");
+            }
+            else if (elapsedTime <= 30f)
+            {
+                ShowPanel(win1StarPanelPrefab);
+                Debug.Log("Victoire avec 1 �toile !");
+            }
+            else
+            {
+                Debug.Log("Temps �coul�, pas de victoire !");
             }
 
-            // Activer le canvas
-            if (canvas != null)
-            {
-                canvas.gameObject.SetActive(true);
-                Debug.Log("Canvas activ�.");
+            SpawnConfetti();
 
-                // Faire appara�tre les confettis
-                SpawnConfetti();
+            UnlockNextLevel();
+        }
+    }
+
+    private void ShowPanel(GameObject panelPrefab)
+    {
+        if (panelPrefab != null && uiParent != null)
+        {
+            GameObject panelInstance = Instantiate(panelPrefab, uiParent);
+            panelInstance.SetActive(true);
+
+            WinLoseUI winLoseUI = panelInstance.GetComponent<WinLoseUI>();
+            if (winLoseUI != null)
+            {
+                winLoseUI.InitializeButtons();
             }
+        }
+        else
+        {
+            Debug.LogWarning("PanelPrefab ou UI Parent non assign� !");
         }
     }
 
     private void SpawnConfetti()
     {
-        if (confettiPrefab != null && canvas != null)
+        if (confettiPrefab != null)
         {
-            // Obtenir la position du canvas pour placer les confettis
-            RectTransform canvasTransform = canvas.GetComponent<RectTransform>();
-            if (canvasTransform != null)
-            {
-                // Instancier les confettis au centre du canvas
-                GameObject confettiInstance = Instantiate(confettiPrefab, canvasTransform.position, Quaternion.identity);
-                confettiInstance.transform.SetParent(canvas.transform, false); // Assurer que les confettis restent dans le canvas
-                Debug.Log("Confettis spawn�s.");
-            }
+            Instantiate(confettiPrefab, transform.position, Quaternion.identity);
         }
-        else
+    }
+
+    private void UnlockNextLevel()
+    {
+        int highestUnlockedLevel = PlayerPrefs.GetInt("HighestUnlockedLevel", 0);
+
+        SaveManager.SaveLevelProgress(currentLevelIndex);
+
+        if (currentLevelIndex + 1 > highestUnlockedLevel)
         {
-            Debug.LogWarning("ConfettiPrefab ou Canvas non assign�.");
+            PlayerPrefs.SetInt("HighestUnlockedLevel", currentLevelIndex + 1);
+            PlayerPrefs.Save();
+            Debug.Log($"Niveau {currentLevelIndex + 1} d�bloqu� !");
         }
     }
 }

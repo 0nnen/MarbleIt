@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class ResetButtonManager : MonoBehaviour
 {
-    public LevelSelectorManager levelSelectorManager; 
+    public LevelSelectorManager levelSelectorManager;
 
     public void OnResetButtonClicked()
     {

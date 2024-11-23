@@ -5,26 +5,26 @@ public static class SaveManager
     private const string ProgressKey = "LevelProgress";
 
     /// <summary>
-    /// Sauvegarde la progression d'un niveau comme terminé.
+    /// Sauvegarde la progression d'un niveau comme termin?.
     /// </summary>
-    /// <param name="levelIndex">Indice du niveau à marquer comme terminé.</param>
+    /// <param name="levelIndex">Indice du niveau ? marquer comme termin?.</param>
     public static void SaveLevelProgress(int levelIndex)
     {
-        string progressData = PlayerPrefs.GetString(ProgressKey, ""); 
+        string progressData = PlayerPrefs.GetString(ProgressKey, "");
         if (!progressData.Contains(levelIndex.ToString()))
         {
-            progressData += levelIndex + ";"; 
+            progressData += levelIndex + ";";
             PlayerPrefs.SetString(ProgressKey, progressData);
             PlayerPrefs.Save();
-            Debug.Log($"Niveau {levelIndex} sauvegardé comme terminé.");
+            Debug.Log($"Niveau {levelIndex} sauvegard? comme termin?.");
         }
     }
 
     /// <summary>
-    /// Vérifie si un niveau est terminé.
+    /// V?rifie si un niveau est termin?.
     /// </summary>
-    /// <param name="levelIndex">Indice du niveau à vérifier.</param>
-    /// <returns>True si le niveau est terminé, False sinon.</returns>
+    /// <param name="levelIndex">Indice du niveau ? v?rifier.</param>
+    /// <returns>True si le niveau est termin?, False sinon.</returns>
     public static bool IsLevelCompleted(int levelIndex)
     {
         string progressData = PlayerPrefs.GetString(ProgressKey, "");
@@ -32,14 +32,14 @@ public static class SaveManager
     }
 
     /// <summary>
-    /// Réinitialise toute la progression.
+    /// R?initialise toute la progression.
     /// </summary>
     public static void ResetProgress()
     {
-        PlayerPrefs.DeleteKey("HighestUnlockedLevel");  
-        PlayerPrefs.DeleteKey(ProgressKey);  
+        PlayerPrefs.DeleteKey("HighestUnlockedLevel");
+        PlayerPrefs.DeleteKey(ProgressKey);
         PlayerPrefs.Save();
-        Debug.Log("Progression réinitialisée.");
+        Debug.Log("Progression r?initialis?e.");
     }
 
 

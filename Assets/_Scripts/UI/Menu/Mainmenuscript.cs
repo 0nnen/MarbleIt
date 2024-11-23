@@ -15,13 +15,13 @@ public class MainMenuScript : MonoBehaviour
 
     [Header("Audio Sources")]
     [SerializeField] private AudioSource buttonClickSound;
-/*    [SerializeField] private AudioSource backgroundMusic;
-*/
+    /*    [SerializeField] private AudioSource backgroundMusic;
+    */
     [Header("Sliders")]
     [SerializeField] private Slider musicVolumeSlider;
     [SerializeField] private Slider soundVolumeSlider;
 
-    private string[] sceneTab = { "LEVEL_03", "Level2", "Level3" };
+    private string[] sceneTab = { "Level1", "Level2", "Level3" };
     private int currentLevel = 0;
 
     private void Start()
@@ -29,13 +29,13 @@ public class MainMenuScript : MonoBehaviour
         // V�rification de la musique en arri�re-plan
         if (gameObject.GetComponent<AudioSource>() != null)
         {
-            gameObject.GetComponent<AudioSource>().gameObject.SetActive(true);  // Ensure the game object is active
+            gameObject.GetComponent<AudioSource>().gameObject.SetActive(true);
             gameObject.GetComponent<AudioSource>().loop = true;
 
             // Initialisation du volume de la musique
             if (gameObject.GetComponent<AudioSource>().volume == 0)
             {
-                gameObject.GetComponent<AudioSource>().volume = 0.5f; // Valeur par d�faut
+                gameObject.GetComponent<AudioSource>().volume = 0.5f;
             }
 
             gameObject.GetComponent<AudioSource>().Play();
@@ -51,12 +51,11 @@ public class MainMenuScript : MonoBehaviour
             Debug.LogWarning("Aucune AudioSource assign�e � backgroundMusic !");
         }
 
-        // V�rification du son des boutons
         if (buttonClickSound != null)
         {
             if (soundVolumeSlider != null)
             {
-                soundVolumeSlider.value = buttonClickSound.volume; // Valeur initiale
+                soundVolumeSlider.value = buttonClickSound.volume;
             }
         }
         else
@@ -64,11 +63,9 @@ public class MainMenuScript : MonoBehaviour
             Debug.LogWarning("Aucune AudioSource assign�e pour le son des boutons !");
         }
 
-        // Initialisation des sliders et des �v�nements de changement de valeur
-        
+
     }
 
-    // M�thode de mise � jour du volume de la musique
     public void SetMusicVolume()
     {
         if (gameObject.GetComponent<AudioSource>() != null)

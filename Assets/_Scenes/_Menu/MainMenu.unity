@@ -7695,7 +7695,7 @@ MonoBehaviour:
     sceneName: 
   lockedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
   unlockedColor: {r: 0.38823533, g: 0.19607845, b: 0.69803923, a: 1}
-  completedColor: {r: 0.3921569, g: 0.19215688, b: 0.69803923, a: 1}
+  completedColor: {r: 0.5137255, g: 0.3137255, b: 0.93725497, a: 1}
 --- !u!4 &1779394722
 Transform:
   m_ObjectHideFlags: 0

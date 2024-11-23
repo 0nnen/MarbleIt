@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class WinLoseUI : MonoBehaviour
 {
     public string menuSceneName = "MainMenu";
-    public string nextLevelSceneName = "NextLevel"; 
+    public string nextLevelSceneName = "NextLevel";
 
     public void InitializeButtons()
     {
@@ -29,16 +29,16 @@ public class WinLoseUI : MonoBehaviour
 
     public void RestartLevel()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name); 
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void GoToMenu()
     {
-        SceneManager.LoadScene(menuSceneName); 
+        SceneManager.LoadScene(menuSceneName);
     }
 
     public void GoToNextLevel()
     {
-        SceneManager.LoadScene(nextLevelSceneName); 
+        SceneManager.LoadScene(nextLevelSceneName);
     }
 }
