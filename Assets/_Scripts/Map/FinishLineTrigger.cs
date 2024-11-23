@@ -1,71 +1,73 @@
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 public class FinishLineTrigger : MonoBehaviour
 {
+    public Timer timer; // Référence au Timer
+    public GameObject win1StarPanelPrefab;
+    public GameObject win2StarsPanelPrefab;
+    public GameObject win3StarsPanelPrefab;
 
-    private CameraController cameraController; // Référence au contrôleur de caméra
-    public Canvas canvas;
+    public Transform uiParent; // Parent dans la hiérarchie de la scène pour les panels
     public GameObject confettiPrefab;
-
-    private void Awake()
-    {
-        cameraController = Camera.main.GetComponent<CameraController>();
-        if (cameraController == null)
-        {
-            Debug.LogError("CameraController non trouvé sur la caméra principale.");
-        }
-        // S'assurer que le canvas est désactivé au début
-        if (canvas != null)
-        {
-            canvas.gameObject.SetActive(false);
-        }
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        // Vérifie si l'objet entrant a le tag "Player"
         if (other.CompareTag("Player"))
         {
-            // Désactiver le contrôle du joueur
-            other.GetComponent<PlayerController>().SetCanMove(false);
+            float elapsedTime = timer.GetTime();
 
-            // Activer la vue de la ligne d'arrivée
-            if (cameraController != null)
+            // Conditions pour afficher les panels correspondants
+            if (elapsedTime <= 10f)
             {
-                cameraController.SetFinishLine(gameObject);
-                Debug.Log("Vue de ligne d'arrivée activée.");
+                ShowPanel(win3StarsPanelPrefab);
+                Debug.Log("Victoire avec 3 étoiles !");
+            }
+            else if (elapsedTime <= 20f)
+            {
+                ShowPanel(win2StarsPanelPrefab);
+                Debug.Log("Victoire avec 2 étoiles !");
+            }
+            else if (elapsedTime <= 30f)
+            {
+                ShowPanel(win1StarPanelPrefab);
+                Debug.Log("Victoire avec 1 étoile !");
+            }
+            else
+            {
+                Debug.Log("Temps écoulé, pas de victoire !");
             }
 
-            // Activer le canvas
-            if (canvas != null)
-            {
-                canvas.gameObject.SetActive(true);
-                Debug.Log("Canvas activé.");
+            // Déclencher les confettis
+            SpawnConfetti();
+        }
+    }
 
-                // Faire apparaître les confettis
-                SpawnConfetti();
+    private void ShowPanel(GameObject panelPrefab)
+    {
+        if (panelPrefab != null && uiParent != null)
+        {
+            // Instancier le prefab et le placer dans la hiérarchie UI
+            GameObject panelInstance = Instantiate(panelPrefab, uiParent);
+            panelInstance.SetActive(true);
+
+            // Ajouter les boutons à la logique (via un script WinLoseUI)
+            WinLoseUI winLoseUI = panelInstance.GetComponent<WinLoseUI>();
+            if (winLoseUI != null)
+            {
+                winLoseUI.InitializeButtons();
             }
+        }
+        else
+        {
+            Debug.LogWarning("PanelPrefab ou UI Parent non assigné !");
         }
     }
 
     private void SpawnConfetti()
     {
-        if (confettiPrefab != null && canvas != null)
+        if (confettiPrefab != null)
         {
-            // Obtenir la position du canvas pour placer les confettis
-            RectTransform canvasTransform = canvas.GetComponent<RectTransform>();
-            if (canvasTransform != null)
-            {
-                // Instancier les confettis au centre du canvas
-                GameObject confettiInstance = Instantiate(confettiPrefab, canvasTransform.position, Quaternion.identity);
-                confettiInstance.transform.SetParent(canvas.transform, false); // Assurer que les confettis restent dans le canvas
-                Debug.Log("Confettis spawnés.");
-            }
-        }
-        else
-        {
-            Debug.LogWarning("ConfettiPrefab ou Canvas non assigné.");
+            Instantiate(confettiPrefab, transform.position, Quaternion.identity);
         }
     }
 }
