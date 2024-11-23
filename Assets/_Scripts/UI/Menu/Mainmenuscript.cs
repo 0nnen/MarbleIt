@@ -29,13 +29,13 @@ public class MainMenuScript : MonoBehaviour
         // Vérification de la musique en arrière-plan
         if (gameObject.GetComponent<AudioSource>() != null)
         {
-            gameObject.GetComponent<AudioSource>().gameObject.SetActive(true);  // Ensure the game object is active
+            gameObject.GetComponent<AudioSource>().gameObject.SetActive(true); 
             gameObject.GetComponent<AudioSource>().loop = true;
 
             // Initialisation du volume de la musique
             if (gameObject.GetComponent<AudioSource>().volume == 0)
             {
-                gameObject.GetComponent<AudioSource>().volume = 0.5f; // Valeur par défaut
+                gameObject.GetComponent<AudioSource>().volume = 0.5f; 
             }
 
             gameObject.GetComponent<AudioSource>().Play();
@@ -51,12 +51,11 @@ public class MainMenuScript : MonoBehaviour
             Debug.LogWarning("Aucune AudioSource assignée à backgroundMusic !");
         }
 
-        // Vérification du son des boutons
         if (buttonClickSound != null)
         {
             if (soundVolumeSlider != null)
             {
-                soundVolumeSlider.value = buttonClickSound.volume; // Valeur initiale
+                soundVolumeSlider.value = buttonClickSound.volume; 
             }
         }
         else
@@ -64,11 +63,9 @@ public class MainMenuScript : MonoBehaviour
             Debug.LogWarning("Aucune AudioSource assignée pour le son des boutons !");
         }
 
-        // Initialisation des sliders et des événements de changement de valeur
         
     }
 
-    // Méthode de mise à jour du volume de la musique
     public void SetMusicVolume()
     {
         if (gameObject.GetComponent<AudioSource>() != null)
