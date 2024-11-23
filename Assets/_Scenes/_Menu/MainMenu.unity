@@ -7683,10 +7683,10 @@ MonoBehaviour:
     sceneName: Test
   - levelPanel: {fileID: 2046436385}
     playButton: {fileID: 1075316990}
-    sceneName: LEVEL_03
+    sceneName: LEVEL_02
   - levelPanel: {fileID: 353783230}
     playButton: {fileID: 1677230876}
-    sceneName: 
+    sceneName: LEVEL_03
   - levelPanel: {fileID: 1027450275}
     playButton: {fileID: 2144263645}
     sceneName: 
