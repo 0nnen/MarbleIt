@@ -3,8 +3,6 @@ using UnityEditor;
 
 
 #pragma warning disable IDE0005
-using Serilog = Meryel.Serilog;
-using MQTTnet = Meryel.UnityCodeAssist.MQTTnet;
 #pragma warning restore IDE0005
 
 

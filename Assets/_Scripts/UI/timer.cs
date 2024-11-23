@@ -1,28 +1,24 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Timer : MonoBehaviour
+public class timer : MonoBehaviour
 {
     private float time;
-
+    // Start is called before the first frame update
     void Start()
     {
-        time = 0;
+        
     }
 
-  
+    // Update is called once per frame
     void Update()
     {
-        time += Time.deltaTime;
+        time+= Time.deltaTime;
     }
-
-    public float GetTime()
+    public float getTime()
     {
         return time;
     }
-
-    public void ResetTime()
+    public void resetTime()
     {
         time = 0;
     }

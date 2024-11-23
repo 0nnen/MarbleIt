@@ -1,11 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
-using UnityEditor.Recorder.Input;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class StartManager : MonoBehaviour
 {
@@ -13,8 +8,10 @@ public class StartManager : MonoBehaviour
     [SerializeField] float forceMultiplyer = 300f;
     bool canInput = true;
 
+
     public void OnMove(InputAction.CallbackContext context)
     {
+        Debug.Log(context.ReadValue<Vector2>());
         if (context.phase == InputActionPhase.Performed && canInput)
         {
             Debug.Log("Salam les patissier");

@@ -2,86 +2,69 @@ using UnityEngine;
 
 public class FinishLineTrigger : MonoBehaviour
 {
-    public Timer timer;
-    public GameObject win1StarPanelPrefab;
-    public GameObject win2StarsPanelPrefab;
-    public GameObject win3StarsPanelPrefab;
 
-    public Transform uiParent;
+    private CameraController cameraController; // Rï¿½fï¿½rence au contrï¿½leur de camï¿½ra
+    public Canvas canvas;
     public GameObject confettiPrefab;
 
-    [SerializeField] private int currentLevelIndex; 
-
-    private void OnTriggerEnter(Collider other)
+    private void Awake()
     {
-        if (other.CompareTag("Player"))
+        cameraController = Camera.main.GetComponent<CameraController>();
+        if (cameraController == null)
         {
-            float elapsedTime = timer.GetTime();
-
-            if (elapsedTime <= 10f)
-            {
-                ShowPanel(win3StarsPanelPrefab);
-                Debug.Log("Victoire avec 3 étoiles !");
-            }
-            else if (elapsedTime <= 20f)
-            {
-                ShowPanel(win2StarsPanelPrefab);
-                Debug.Log("Victoire avec 2 étoiles !");
-            }
-            else if (elapsedTime <= 30f)
-            {
-                ShowPanel(win1StarPanelPrefab);
-                Debug.Log("Victoire avec 1 étoile !");
-            }
-            else
-            {
-                Debug.Log("Temps écoulé, pas de victoire !");
-            }
-
-            SpawnConfetti();
-
-            UnlockNextLevel();
+            Debug.LogError("CameraController non trouvï¿½ sur la camï¿½ra principale.");
+        }
+        // S'assurer que le canvas est dï¿½sactivï¿½ au dï¿½but
+        if (canvas != null)
+        {
+            canvas.gameObject.SetActive(false);
         }
     }
 
-    private void ShowPanel(GameObject panelPrefab)
+    private void OnTriggerEnter(Collider other)
     {
-        if (panelPrefab != null && uiParent != null)
+        // Vï¿½rifie si l'objet entrant a le tag "Player"
+        if (other.CompareTag("Player"))
         {
-            GameObject panelInstance = Instantiate(panelPrefab, uiParent);
-            panelInstance.SetActive(true);
+            // Dï¿½sactiver le contrï¿½le du joueur
+            other.GetComponent<PlayerController>().SetCanMove(false);
 
-            WinLoseUI winLoseUI = panelInstance.GetComponent<WinLoseUI>();
-            if (winLoseUI != null)
+            // Activer la vue de la ligne d'arrivï¿½e
+            if (cameraController != null)
             {
-                winLoseUI.InitializeButtons();
+                cameraController.SetFinishLine(gameObject);
+                Debug.Log("Vue de ligne d'arrivï¿½e activï¿½e.");
             }
-        }
-        else
-        {
-            Debug.LogWarning("PanelPrefab ou UI Parent non assigné !");
+
+            // Activer le canvas
+            if (canvas != null)
+            {
+                canvas.gameObject.SetActive(true);
+                Debug.Log("Canvas activï¿½.");
+
+                // Faire apparaï¿½tre les confettis
+                SpawnConfetti();
+            }
         }
     }
 
     private void SpawnConfetti()
     {
-        if (confettiPrefab != null)
+        if (confettiPrefab != null && canvas != null)
         {
-            Instantiate(confettiPrefab, transform.position, Quaternion.identity);
+            // Obtenir la position du canvas pour placer les confettis
+            RectTransform canvasTransform = canvas.GetComponent<RectTransform>();
+            if (canvasTransform != null)
+            {
+                // Instancier les confettis au centre du canvas
+                GameObject confettiInstance = Instantiate(confettiPrefab, canvasTransform.position, Quaternion.identity);
+                confettiInstance.transform.SetParent(canvas.transform, false); // Assurer que les confettis restent dans le canvas
+                Debug.Log("Confettis spawnï¿½s.");
+            }
         }
-    }
-
-    private void UnlockNextLevel()
-    {
-        int highestUnlockedLevel = PlayerPrefs.GetInt("HighestUnlockedLevel", 0);
-
-        SaveManager.SaveLevelProgress(currentLevelIndex);
-
-        if (currentLevelIndex + 1 > highestUnlockedLevel)
+        else
         {
-            PlayerPrefs.SetInt("HighestUnlockedLevel", currentLevelIndex + 1);
-            PlayerPrefs.Save();
-            Debug.Log($"Niveau {currentLevelIndex + 1} débloqué !");
+            Debug.LogWarning("ConfettiPrefab ou Canvas non assignï¿½.");
         }
     }
 }

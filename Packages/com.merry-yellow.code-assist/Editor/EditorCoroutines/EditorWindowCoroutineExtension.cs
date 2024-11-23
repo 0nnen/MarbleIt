@@ -5,7 +5,6 @@
 
 using System.Collections;
 using UnityEditor;
-using UnityEngine;
 
 //namespace Unity.EditorCoroutines.Editor
 namespace Meryel.UnityCodeAssist.Editor.EditorCoroutines

@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Schema;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -37,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
             // Stocker la direction comme la direction dans laquelle appliquer la force
             lastDirection = screenToWorldDelta.normalized;
-
+                
             // Appliquer la force dans la direction calculée
             rb.AddForce(lastDirection * 1f, ForceMode.Impulse);
         }
