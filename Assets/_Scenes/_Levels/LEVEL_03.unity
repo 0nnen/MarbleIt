@@ -1184,6 +1184,12 @@ PrefabInstance:
       insertIndex: 6
       addedObject: {fileID: 1948914296}
   m_SourcePrefab: {fileID: 100100000, guid: 720d6ae90cee5004d8c15db04ab548d4, type: 3}
+--- !u!23 &215450668 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 5622904381301311443, guid: 720d6ae90cee5004d8c15db04ab548d4,
+    type: 3}
+  m_PrefabInstance: {fileID: 215450667}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &235772073
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1810,6 +1816,58 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectType: 3
   Amount: 23
+--- !u!1 &335797820
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 335797821}
+  - component: {fileID: 335797822}
+  m_Layer: 0
+  m_Name: SkinManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &335797821
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335797820}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 620.7173, y: 1206.9885, z: -3.4091558}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &335797822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 335797820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 297f528265811b5459669c51b78037ee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  skins:
+  - {fileID: 2100000, guid: 92dad0b7882983e4f8f4108e097add3c, type: 2}
+  - {fileID: 2100000, guid: b3e6304b618fbcf41b6ac9e12990fdeb, type: 2}
+  - {fileID: 2100000, guid: d74ab39db8b6cbe4280b5621b7109e55, type: 2}
+  - {fileID: 2100000, guid: 3d04350f00a81fc40bb832aca0c3079c, type: 2}
+  - {fileID: 2100000, guid: 55fa49bf5eacd2d4daf78f33c79eb8ab, type: 2}
+  - {fileID: 2100000, guid: f95f8c99a14bd214cb3321647e518b09, type: 2}
+  ballRenderer: {fileID: 215450668}
 --- !u!1001 &335830738
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12473,3 +12531,4 @@ SceneRoots:
   - {fileID: 424186185}
   - {fileID: 1330538353}
   - {fileID: 1848872919}
+  - {fileID: 335797821}
