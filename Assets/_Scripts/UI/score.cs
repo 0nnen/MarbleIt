@@ -2,10 +2,8 @@ using UnityEngine;
 
 public class Score : MonoBehaviour
 {
-    private int coins = 0;
+    private int coins = 0; // Nombre de pièces collectées
 
-
-    // Incrémente le score
     public void AddCoin()
     {
         coins++;

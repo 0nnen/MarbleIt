@@ -3,31 +3,33 @@ using UnityEngine;
 
 public class DisplayCoin : MonoBehaviour
 {
-    private int coins = 0;
-    [SerializeField] private Score score; // Référence au script Score
-    [SerializeField] private TextMeshProUGUI coinText; // Référence au texte UI
+    private int coins = 0; // Compteur local des pièces
+    [SerializeField] private TextMeshProUGUI coinText; // Texte UI pour afficher les pièces
 
     private void Start()
     {
-        if (score == null || coinText == null)
+        if (coinText == null)
         {
-            Debug.LogError("Score or TextMeshProUGUI reference is missing!");
+            Debug.LogError("Référence à TextMeshProUGUI manquante !");
             return;
         }
 
-        // Initialiser l'affichage avec le score actuel
+        // Initialisation du texte
         UpdateCoinText();
-    }
-
-    public void UpdateCoinText()
-    {
-        // Met à jour le texte UI avec le score actuel
-        coinText.text = coins.ToString();
     }
 
     public void AddCoin()
     {
-        coins++;
+        coins++; // Incrémente les pièces locales
+        UpdateCoinText();
     }
 
+    private void UpdateCoinText()
+    {
+        if (coinText != null)
+        {
+            coinText.text = coins.ToString();
+            Debug.Log($"Mise à jour du texte : {coins}");
+        }
+    }
 }

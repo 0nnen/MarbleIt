@@ -2,28 +2,34 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    [SerializeField] private Score score; // R�f�rence au script Score
-    [SerializeField] private DisplayCoin displayCoin; // R�f�rence au script DisplayCoin
+    [SerializeField] private DisplayCoin displayCoin; // Référence au script DisplayCoin
 
-    private async void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player")) // V�rifie si c'est le joueur qui collecte l'objet
+        if (other.CompareTag("Player")) // Vérifie si le joueur entre en collision
         {
+            if (displayCoin != null)
+            {
+                displayCoin.AddCoin(); // Ajoute une pièce et met à jour l'UI
+            }
+            else
+            {
+                Debug.LogWarning("Référence à DisplayCoin manquante !");
+            }
 
-             // Incr�mente le score
-             displayCoin.AddCoin();
+            // Lecture du son (si disponible)
+            if (gameObject.TryGetComponent<AudioSource>(out AudioSource audioSource))
+            {
+                audioSource.Play();
+            }
 
-             // Met � jour l'interface utilisateur
-             if (displayCoin != null)
-             {
-                 displayCoin.UpdateCoinText();
-             }
+            // Désactive le collectable et le détruit
+            if (gameObject.TryGetComponent<MeshRenderer>(out MeshRenderer renderer))
+            {
+                renderer.enabled = false;
+            }
 
-             gameObject.GetComponent<AudioSource>().Play();
-            // D�truit l'objet collectable
-            gameObject.GetComponent<MeshRenderer>().enabled = false;
+            Destroy(gameObject, 0.5f); // Délai pour permettre au son de se jouer
         }
-
-        
     }
 }

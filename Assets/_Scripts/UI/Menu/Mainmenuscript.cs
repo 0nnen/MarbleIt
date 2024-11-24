@@ -112,21 +112,13 @@ public class MainMenuScript : MonoBehaviour
     {
         PlayButtonClickSound();
 
-        // Charger le niveau actuel depuis la sauvegarde
-        currentLevel = GetCurrentLevel();
+        string sceneToLoad = "LEVEL_03"; 
+        Debug.Log($"Chargement du niveau : {sceneToLoad}");
 
-        // Vérifier si le niveau existe dans la liste
-        if (currentLevel < sceneTab.Length)
-        {
-            string sceneToLoad = sceneTab[currentLevel];
-            Debug.Log($"Chargement du niveau : {sceneToLoad}");
-            SceneManager.LoadScene(sceneToLoad);
-        }
-        else
-        {
-            Debug.LogWarning("Tous les niveaux ont été complétés ou niveau invalide !");
-        }
+        // Charger la scène
+        SceneManager.LoadScene(sceneToLoad);
     }
+
 
 
     public void ShowCredits()
